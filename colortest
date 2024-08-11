@@ -7,9 +7,9 @@ for bgv in 4 10
 do
 	if test "$bgv" -eq 4
 	then
-		printf '   %s   '  fg
+		printf ' \033[7m  %s   \033[m' fg
 	else
-		printf ' \033[7m  %s   \033[m' bg
+		printf '   %s   '  bg
 	fi
 	for bg in 0 1 2 3 4 5 6 7
 	do
