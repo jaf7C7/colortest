@@ -32,10 +32,10 @@ for fg in 0 30 31 32 33 34 35 36 37
 do
 	for wgt in 0 1
 	do
-		cap=''
+		cap='m'
 		if test "$fg" -ne 0
 		then
-			cap="$fg"
+			cap="${fg}${cap}"
 		fi
 		if test "$wgt" -eq 1
 		then
@@ -45,8 +45,9 @@ do
 			fi
 			cap="1${cap}"
 		fi
-		printf ' %4sm ' "$cap"
-		printf ' \033[%d;%dm%s\033[m' "$wgt" "$fg" "$str"
+		printf ' %5s ' "$cap"
+		printf ' \033[%d;%dm%s\033[m' \
+			"$wgt" $((wgt == 1 ? 1 : fg)) "$str"
 		for bg in 0 1 2 3 4 5 6 7
 		do
 			printf ' \033[%d;%d;4%dm%s\033[m' \
