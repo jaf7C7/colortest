@@ -5,7 +5,7 @@
 i=0
 for bgv in 4 10
 do
-	if test "$bgv" -eq 4
+	if test $((bgv)) -eq 4
 	then
 		printf ' \033[7m  %s   \033[m' fg
 	else
@@ -33,21 +33,23 @@ do
 	for wgt in 0 1
 	do
 		cap='m'
-		if test "$fg" -ne 0
+		if test $((fg)) -ne 0
 		then
 			cap="${fg}${cap}"
 		fi
-		if test "$wgt" -eq 1
+		if test $((wgt)) -eq 1
 		then
-			if test "$fg" -ne 0
+			if test $((fg)) -ne 0
 			then
 				cap=";${cap}"
 			fi
 			cap="1${cap}"
 		fi
+		# Stop 'fg' overriding 'wgt' for 'm' and '1m' lines.
+		fg=$((wgt == 1  && fg == 0 ? 1 : fg)) 
 		printf ' %5s ' "$cap"
 		printf ' \033[%d;%dm%s\033[m' \
-			"$wgt" $((wgt == 1 ? 1 : fg)) "$str"
+			"$wgt" "$fg" "$str"
 		for bg in 0 1 2 3 4 5 6 7
 		do
 			printf ' \033[%d;%d;4%dm%s\033[m' \
