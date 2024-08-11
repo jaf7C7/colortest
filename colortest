@@ -32,24 +32,18 @@ for fg in 0 30 31 32 33 34 35 36 37
 do
 	for wgt in 0 1
 	do
-		cap='m'
-		if test $((fg)) -ne 0
+		cap="${wgt};${fg}m"
+		if test "$cap" = '0;0m'
 		then
-			cap="${fg}${cap}"
-		fi
-		if test $((wgt)) -eq 1
+			cap='m'
+		elif test "$cap" = '1;0m'
 		then
-			if test $((fg)) -ne 0
-			then
-				cap=";${cap}"
-			fi
-			cap="1${cap}"
+			cap='1m'
 		fi
 		# Stop 'fg' overriding 'wgt' for 'm' and '1m' lines.
 		fg=$((wgt == 1  && fg == 0 ? 1 : fg)) 
 		printf ' %5s ' "$cap"
-		printf ' \033[%d;%dm%s\033[m' \
-			"$wgt" "$fg" "$str"
+		printf ' \033[%d;%dm%s\033[m' "$wgt" "$fg" "$str"
 		for bg in 0 1 2 3 4 5 6 7
 		do
 			printf ' \033[%d;%d;4%dm%s\033[m' \
